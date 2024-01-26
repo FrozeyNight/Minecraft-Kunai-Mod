@@ -44,14 +44,18 @@ public class ThrownKunai extends AbstractArrow {
             target.playSound(SoundEvents.TRIDENT_HIT, 1f , 1f);
         }
 
-        // You can add more logic here if needed
-
         // Prevent the kunai from being removed
         this.setDeltaMovement(this.getDeltaMovement().multiply(-0.1D, -0.1D, -0.1D));
         //this.setNoGravity(true);
 
         // Call the parent method to handle other effects
         super.onHitEntity(hitResult);
+    }
+
+    @Override
+    protected void onHitBlock(BlockHitResult pResult) {
+        this.playSound(SoundEvents.TRIDENT_HIT, 1f , 1f);
+        super.onHitBlock(pResult);
     }
 
     protected boolean tryPickup(Player pPlayer) {
