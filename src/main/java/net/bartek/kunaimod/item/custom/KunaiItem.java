@@ -2,20 +2,16 @@ package net.bartek.kunaimod.item.custom;
 
 import net.bartek.kunaimod.entities.projectile.ThrownKunai;
 import net.bartek.kunaimod.util.KunaiTracking;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.SwordItem;
 import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
@@ -32,7 +28,7 @@ public class KunaiItem extends SwordItem {
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
         ItemStack itemstack = pPlayer.getItemInHand(pHand);
         itemstack.hurtAndBreak(2, pPlayer, p -> p.broadcastBreakEvent(pPlayer.getUsedItemHand()));
-        pLevel.playSound((Player)null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.ENDER_PEARL_THROW, SoundSource.NEUTRAL, 0.5F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
+        pLevel.playSound((Player)null, pPlayer.getX(), pPlayer.getY(), pPlayer.getZ(), SoundEvents.PLAYER_ATTACK_SWEEP, SoundSource.NEUTRAL, 0.5F, 0.4F / (pLevel.getRandom().nextFloat() * 0.4F + 0.8F));
         if (!pLevel.isClientSide) {
             ThrownKunai thrownKunai = new ThrownKunai(pLevel, pPlayer, itemstack);
             thrownKunai.shootFromRotation(pPlayer, pPlayer.getXRot(), pPlayer.getYRot(), 0.0F, 1.5F, 1.0F);
@@ -68,7 +64,7 @@ public class KunaiItem extends SwordItem {
                 List<ThrownKunai> playerKunais = KunaiTracking.thrownKunaiMap.get(player);
                 playerKunais.remove(playerKunais.size() - 1);
 
-                player.playSound(SoundEvents.CHORUS_FRUIT_TELEPORT, 1, 1F);
+                world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENDERMAN_TELEPORT, SoundSource.PLAYERS, 1f , 1f);
             }
 
     }
@@ -85,5 +81,7 @@ public class KunaiItem extends SwordItem {
         return null;
     }
 }
+
+
 
 
