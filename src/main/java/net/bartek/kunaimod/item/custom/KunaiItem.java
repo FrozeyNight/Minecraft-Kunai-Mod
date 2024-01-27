@@ -69,6 +69,58 @@ public class KunaiItem extends SwordItem {
 
     }
 
+    public static void explodeKunai(Player player, Level world)
+    {
+        ThrownKunai lastThrownKunai = findLastThrownKunai(player);
+
+        Vec3 daggerPos = lastThrownKunai.position();
+
+        if (player instanceof ServerPlayer) {
+            ServerPlayer serverPlayer = (ServerPlayer) player;
+            world.explode(lastThrownKunai, daggerPos.x, daggerPos.y, daggerPos.z, 5f, Level.ExplosionInteraction.MOB);
+
+            lastThrownKunai.kunaiItem.hurtAndBreak(16, player, p -> p.broadcastBreakEvent(player.getUsedItemHand()));
+
+            // Remove the last thrown kunai from the list
+            List<ThrownKunai> playerKunais = KunaiTracking.thrownKunaiMap.get(player);
+            playerKunais.remove(playerKunais.size() - 1);
+
+            world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.GENERIC_EXPLODE, SoundSource.PLAYERS, 1f , 1f);
+        }
+    }
+
+    public static void gravityPullToKunai(Player player, Level world){
+        ThrownKunai lastThrownKunai = findLastThrownKunai(player);
+
+        Vec3 daggerPos = lastThrownKunai.position();
+
+        if (player instanceof ServerPlayer) {
+            ServerPlayer serverPlayer = (ServerPlayer) player;
+
+            // Check for nearby entities and make them leap into the air
+            List<LivingEntity> nearbyEntities = world.getEntitiesOfClass(LivingEntity.class,
+                    new AABB(daggerPos.x() - 10.0, daggerPos.y() - 10.0, daggerPos.z() - 10.0,
+                            daggerPos.x() + 10.0, daggerPos.y() + 10.0, daggerPos.z() + 10.0));
+
+            for (LivingEntity entity : nearbyEntities) {
+                // Calculate direction vector from entity to daggerPos
+                Vec3 direction = daggerPos.subtract(entity.position()).normalize();
+
+                // Apply a force towards daggerPos using the direction vector
+                double strength = 2;  // Adjust this value to control the strength of the gravity pull
+                entity.setDeltaMovement(entity.getDeltaMovement().add(direction.x * strength, direction.y * strength, direction.z * strength));
+            }
+
+            lastThrownKunai.kunaiItem.hurtAndBreak(16, player, p -> p.broadcastBreakEvent(player.getUsedItemHand()));
+
+            // Remove the last thrown kunai from the list
+            List<ThrownKunai> playerKunais = KunaiTracking.thrownKunaiMap.get(player);
+            playerKunais.remove(playerKunais.size() - 1);
+
+            world.playSound(null, player.getX(), player.getY(), player.getZ(), SoundEvents.GLASS_BREAK, SoundSource.PLAYERS, 1f , 1f);
+        }
+    }
+
     // Helper method to find the last thrown kunai by the player
     private static ThrownKunai findLastThrownKunai(Player player) {
         List<ThrownKunai> thrownKunais = KunaiTracking.thrownKunaiMap.getOrDefault(player, new LinkedList<>());
