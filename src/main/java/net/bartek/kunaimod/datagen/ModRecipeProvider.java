@@ -26,5 +26,14 @@ public class ModRecipeProvider extends RecipeProvider implements IConditionBuild
                 .define('N', Items.NETHERITE_INGOT)
                 .unlockedBy(getHasName(Items.NETHER_STAR), has(Items.NETHER_STAR))
                 .save(pWriter);
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.COMBAT, ModItems.IRON_KUNAI.get())
+                .pattern("   ")
+                .pattern(" I ")
+                .pattern(" T ")
+                .define('I', Items.IRON_INGOT)
+                .define('T', Items.STICK)
+                .unlockedBy(getHasName(Items.IRON_INGOT), has(Items.IRON_INGOT))
+                .save(pWriter);
     }
 }
