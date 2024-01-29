@@ -18,6 +18,7 @@ public class ModCreativeModTabs {
                     .title(Component.translatable("creativetab.kunaimod_tab"))
                     .displayItems((pParameters, pOutput) -> {
                         pOutput.accept(ModItems.KUNAI.get());
+                        pOutput.accept(ModItems.IRON_KUNAI.get());
 
                     })
                     .build());
