@@ -13,5 +13,7 @@ public class ModEventBusClientEvents {
     @SubscribeEvent
     public static void registerLayer(EntityRenderersEvent.RegisterLayerDefinitions event){
         event.registerLayerDefinition(ModModelLayers.THROWN_KUNAI_LAYER, ThrownKunaiModel::createBodyLayer);
+
+        event.registerLayerDefinition(ModModelLayers.IRON_THROWN_KUNAI_LAYER, IronThrownKunaiModel::createBodyLayer);
     }
 }
