@@ -84,6 +84,7 @@ public class KunaiMod
         public static void onClientSetup(FMLClientSetupEvent event)
         {
             EntityRenderers.register(ModEntities.THROWN_KUNAI.get(), ThrownKunaiRenderer::new);
+            EntityRenderers.register(ModEntities.IRON_THROWN_KUNAI.get(), IronThrownKunaiRenderer::new);
         }
     }
 }
