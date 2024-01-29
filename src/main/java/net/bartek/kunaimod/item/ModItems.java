@@ -24,6 +24,9 @@ public class ModItems {
     public static final RegistryObject<Item> KUNAI = ITEMS.register("kunai",
             () -> new KunaiItem(Tiers.NETHERITE,2, -2,new Item.Properties().stacksTo(1).fireResistant().durability(2500)));
 
+    public static final RegistryObject<Item> IRON_KUNAI = ITEMS.register("iron_kunai",
+            () -> new IronKunaiItem(Tiers.NETHERITE,0, -2,new Item.Properties().stacksTo(1).fireResistant().durability(750)));
+
     public static void register(IEventBus eventBus){
         ITEMS.register(eventBus);
     }
