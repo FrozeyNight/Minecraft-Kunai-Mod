@@ -6,4 +6,9 @@
   "key.category.kunaimod.kunai": "Kunai Mod",
 
   "key.kunaimod.teleporting_to_kunai": "Activate Kunai Ability"
+
+  "enchantment.kunaimod.kunai_teleportation": "Kunai Teleportation",
+  "enchantment.kunaimod.kunai_explosion": "Kunai Explosion",
+  "enchantment.kunaimod.kunai_gravity_pull": "Kunai Gravity Pull",
+  "enchantment.kunaimod.kunai_blinding": "Kunai Blinding"
 }
