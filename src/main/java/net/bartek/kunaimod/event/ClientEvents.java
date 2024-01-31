@@ -21,22 +21,21 @@ public class ClientEvents {
         public static void onKeyInput(InputEvent.Key event){
             if (KeyBinding.TELEPORTING_KEY.consumeClick()) {
                 Player player = Minecraft.getInstance().player;
-                if (player != null) {
-                    ItemStack heldItem = player.getItemInHand(player.swingingArm);
+                
+                ThrownKunai lastThrownKunai = KunaiItem.findLastThrownKunai(player);
 
-                    if (heldItem.getItem() instanceof KunaiItem) {
-                        if (EnchantmentHelper.getTagEnchantmentLevel(ModEnchantments.KUNAI_TELEPORTATION.get(), heldItem) > 0) {
-                            ModMessages.sendToServer(new KunaiTeleportC2SPacket());
-                        }
-                        else if (EnchantmentHelper.getTagEnchantmentLevel(ModEnchantments.KUNAI_EXPLOSION.get(), heldItem) > 0) {
-                            ModMessages.sendToServer(new KunaiExplosionC2SPacket());
-                        }
-                        else if (EnchantmentHelper.getTagEnchantmentLevel(ModEnchantments.KUNAI_GRAVITY_PULL.get(), heldItem) > 0) {
-                            ModMessages.sendToServer(new KunaiGravityPullC2SPacket());
-                        }
-                        else if (EnchantmentHelper.getTagEnchantmentLevel(ModEnchantments.KUNAI_BLINDING.get(), heldItem) > 0) {
-                            ModMessages.sendToServer(new KunaiBlindC2SPacket());
-                        }
+                if (lastThrownKunai != null) {
+                    if (lastThrownKunai.kunaiItem.getEnchantmentLevel(ModEnchantments.KUNAI_TELEPORTATION.get()) > 0) {
+                        ModMessages.sendToServer(new KunaiTeleportC2SPacket());
+                    }
+                    else if (lastThrownKunai.kunaiItem.getEnchantmentLevel(ModEnchantments.KUNAI_EXPLOSION.get()) > 0) {
+                        ModMessages.sendToServer(new KunaiExplosionC2SPacket());
+                    }
+                    else if (lastThrownKunai.kunaiItem.getEnchantmentLevel(ModEnchantments.KUNAI_GRAVITY_PULL.get()) > 0) {
+                        ModMessages.sendToServer(new KunaiGravityPullC2SPacket());
+                    }
+                    else if (lastThrownKunai.kunaiItem.getEnchantmentLevel(ModEnchantments.KUNAI_BLINDING.get()) > 0) {
+                        ModMessages.sendToServer(new KunaiBlindC2SPacket());
                     }
                 }
             }
